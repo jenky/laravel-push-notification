@@ -70,7 +70,7 @@ class NotificationPusher
     }
 
     /**
-     * Queue the message for sending.
+     * Queue the message for sending on the given queue.
      *
      * @param  mixed $message
      * @param  array $options
