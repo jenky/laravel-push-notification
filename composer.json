@@ -4,7 +4,8 @@
     "keywords": [
         "laravel",
         "push notification",
-        "notification"
+        "notification",
+        "laravel notifications"
     ],
     "homepage": "https://github.com/jenky/laravel-push-notification",
     "license": "MIT",
@@ -15,7 +16,6 @@
         }
     ],
     "require": {
-        "illuminate/notifications": "~5.3",
         "illuminate/config": "~5.1",
         "illuminate/queue": "~5.1",
         "sly/notification-pusher": "^2.2"
@@ -26,15 +26,15 @@
     "autoload": {
         "psr-4": {
             "Jenky\\LaravelPushNotification\\": "src"
-        },
-        "files": [
-            "src/helpers.php"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {
             "Jenky\\LaravelNotification\\Test\\": "tests"
         }
+    },
+    "suggest": {
+        "illuminate/notifications": "Required to use Laravel Notifications (~5.3)."
     },
     "scripts": {
         "test": "phpunit"
