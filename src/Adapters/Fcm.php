@@ -47,7 +47,7 @@ class Fcm extends Gcm
     }
 
     /**
-     * Feedback.
+     * Get the feedback.
      *
      * @return array
      */

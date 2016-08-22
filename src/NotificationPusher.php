@@ -147,7 +147,7 @@ class NotificationPusher
     /**
      * Get the push manager.
      *
-     * @return Sly\NotificationPusher\PushManager
+     * @return \Sly\NotificationPusher\PushManager
      */
     public function getManager()
     {
