@@ -2,10 +2,16 @@
 
 namespace Jenky\LaravelPushNotification;
 
-class QueueNotification
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Sly\NotificationPusher\PushManager;
+
+class SendQueuePushNotification implements ShouldQueue
 {
+    use Queueable;
+
     /**
-     * @var \Jenky\LaravelPushNotification\NotificationPusher
+     * @var \Sly\NotificationPusher\PushManager
      */
     protected $pusher;
 
@@ -14,7 +20,7 @@ class QueueNotification
      *
      * @return void
      */
-    public function __construct(NotificationPusher $pusher)
+    public function __construct(PushManager $pusher)
     {
         $this->pusher = $pusher;
     }
@@ -26,9 +32,6 @@ class QueueNotification
      */
     public function handle()
     {
-        dd($this->pusher);
-        $this->pusher->getManager()->push();
-
-        return $this->pusher;
+        $this->pusher->push();
     }
 }
