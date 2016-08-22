@@ -1,6 +1,6 @@
 <?php
 
-namespace Jenky\LaravelPushNotification\Adapter;
+namespace Jenky\LaravelPushNotification\Adapters;
 
 use Jenky\LaravelPushNotification\Fcm\Client;
 use Jenky\LaravelPushNotification\Fcm\Message;
