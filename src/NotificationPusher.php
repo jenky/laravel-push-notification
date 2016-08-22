@@ -3,6 +3,7 @@
 namespace Jenky\LaravelPushNotification;
 
 use Illuminate\Contracts\Queue\Queue;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Sly\NotificationPusher\Adapter\AdapterInterface;
 use Sly\NotificationPusher\Model\Device;
 use Sly\NotificationPusher\Model\Message;
@@ -11,6 +12,8 @@ use Sly\NotificationPusher\PushManager;
 
 class NotificationPusher
 {
+    use DispatchesJobs;
+
     /**
      * @var \Sly\NotificationPusher\PushManager
      */
@@ -25,13 +28,6 @@ class NotificationPusher
      * @var mixed
      */
     protected $to;
-
-    /**
-     * The queue implementation.
-     *
-     * @var \Illuminate\Contracts\Queue\Queue
-     */
-    protected $queue;
 
     /**
      * Create new class instance.
@@ -74,26 +70,52 @@ class NotificationPusher
     }
 
     /**
-     * Queue the message.
+     * Queue the message for sending.
      *
      * @param  mixed $message
      * @param  array $options
+     * @param  string|null $connection
      * @param  string|null $queue
-     * @return $this
+     * @return void
      */
-    public function queue($message, $options = [], $queue = null)
+    public function queue($message, $options = [], $connection = null, $queue = null)
     {
         $this->setupPush($message, $options);
 
-        if ($queue) {
-            return $this->queue->pushOn(
-                $queue, new QueueNotification($this)
-            );
-        } else {
-            return $this->queue->push(
-                Contracts\PushNotification::class.'@handleQueuedNotification', new QueueNotification($this)
-            );
-        }
+        $this->dispatchesJob($connection, $queue);
+    }
+
+    /**
+     * Queue the message for sending after (n) seconds on the given queue.
+     *
+     * @param  int $delay
+     * @param  mixed $message
+     * @param  array $options
+     * @param  string|null $connection
+     * @param  string|null $queue
+     * @return void
+     */
+    public function later($delay, $message, $options = [], $connection = null, $queue = null)
+    {
+        $this->setupPush($message, $options);
+
+        $this->dispatchesJob($connection, $queue, $delay);
+    }
+
+    /**
+     * Push the job to the queue.
+     *
+     * @param  string|null $connection
+     * @param  string|null $queue
+     * @param  int $delay
+     * @return void
+     */
+    protected function dispatchesJob($connection = null, $queue = null, $delay = 0)
+    {
+        $this->dispatch((new SendQueuePushNotification($this->manager))
+            ->onConnection($connection)
+            ->onQueue($queue)
+            ->delay($delay));
     }
 
     /**
@@ -140,18 +162,5 @@ class NotificationPusher
     public function getAdapter()
     {
         return $this->adapter;
-    }
-
-    /**
-     * Set the queue manager instance.
-     *
-     * @param  \Illuminate\Contracts\Queue\Queue $queue
-     * @return $this
-     */
-    public function setQueue(Queue $queue)
-    {
-        $this->queue = $queue;
-
-        return $this;
     }
 }

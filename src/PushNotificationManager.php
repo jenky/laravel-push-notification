@@ -3,7 +3,6 @@
 namespace Jenky\LaravelPushNotification;
 
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Queue\Queue;
 use Jenky\LaravelPushNotification\Contracts\PushNotification;
 
 class PushNotificationManager implements PushNotification
@@ -41,14 +40,11 @@ class PushNotificationManager implements PushNotification
 
         $adapter = new $adapterClass(array_except($option, ['environment', 'adapter']));
 
-        $pusher = new NotificationPusher($adapter, array_get($option, 'environment'));
-        $pusher->setQueue($this->app[Queue::class]);
-
-        return $pusher;
+        return new NotificationPusher($adapter, array_get($option, 'environment'));
     }
 
     /**
-     * Get the config data.
+     * Get the config value.
      *
      * @param  string $key
      * @param  mixed $default
@@ -57,10 +53,5 @@ class PushNotificationManager implements PushNotification
     protected function getConfig($key, $default = null)
     {
         return $this->app['config']->get('push-notification.'.$key, $default);
-    }
-
-    public function handleQueuedNotification($job, $data)
-    {
-        $job->delete();
     }
 }
