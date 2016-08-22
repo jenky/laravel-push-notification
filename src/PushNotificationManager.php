@@ -22,7 +22,6 @@ class PushNotificationManager implements PushNotification
         $this->app = $app;
     }
 
-
     /**
      * Get the push driver.
      *
