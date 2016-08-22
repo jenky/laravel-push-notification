@@ -7,7 +7,9 @@ return [
     | Push Notification Drivers
     |--------------------------------------------------------------------------
     |
-    | Description
+    | Here you may define all of the push notification "drivers" for your
+    | application as well as their adapter. You may even define multiple
+    | drivers for the same push notification adapter.
     |
     */
 
@@ -32,14 +34,15 @@ return [
     | Push Notification Adapters
     |--------------------------------------------------------------------------
     |
-    | Description
+    | Here you may define all of the push notification adapters that will
+    | be used in "drivers" options to send the push message.
     |
     */
 
     'adapters' => [
         'apns' => Sly\NotificationPusher\Adapter\Apns::class,
         'gcm' => Sly\NotificationPusher\Adapter\Gcm::class,
-        'fcm' => Jenky\LaravelPushNotification\Adapter\Fcm::class,
+        'fcm' => Jenky\LaravelPushNotification\Adapters\Fcm::class,
     ],
 
 ];
