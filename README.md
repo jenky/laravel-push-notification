@@ -23,7 +23,7 @@ Jenky\LaravelPushNotification\PushNotificationServiceProvider::class,
 Add this to your facades in `config/app.php` (optional):
 
 ```php
-'Plupload' => Jenky\LaravelPushNotification\Facades\PushNotification::class,
+'PushNotification' => Jenky\LaravelPushNotification\Facades\PushNotification::class,
 ```
 
 Copy the package config to your local config with the publish command:
