@@ -112,7 +112,7 @@ class NotificationPusher
      */
     protected function dispatchesJob($connection = null, $queue = null, $delay = 0)
     {
-        $this->dispatch((new SendQueuePushNotification($this->manager))
+        $this->dispatch((new SendQueuedPushNotification($this->manager))
             ->onConnection($connection)
             ->onQueue($queue)
             ->delay($delay));

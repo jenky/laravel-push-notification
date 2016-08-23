@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Sly\NotificationPusher\PushManager;
 
-class SendQueuePushNotification implements ShouldQueue
+class SendQueuedPushNotification implements ShouldQueue
 {
     use Queueable;
 
